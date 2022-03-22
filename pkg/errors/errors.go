@@ -45,6 +45,7 @@ var (
 	RunCommandFailed     error = errors.New("Run Command Failed")
 	InvalidToken         error = errors.New("InvalidToken")
 	Unknown              error = errors.New("Unknown Reason")
+	FailedOnOwnerNode    error = errors.New("Failed on owner node")
 )
 
 func GetErrorCode(err error) string {
@@ -110,6 +111,8 @@ func GetErrorCode(err error) string {
 		return "InvalidToken"
 	} else if IsUnknown(err) {
 		return "Unknown"
+	} else if IsFailedOnOwnerNode(err) {
+		return "Failed on owner node"
 	}
 
 	return "GenericError"
@@ -266,6 +269,9 @@ func IsTimeout(err error) bool {
 }
 func IsInvalidToken(err error) bool {
 	return checkError(err, InvalidToken)
+}
+func IsFailedOnOwnerNode(err error) bool {
+	return checkError(err, FailedOnOwnerNode)
 }
 
 func IsErrDeadlineExceeded(err error) bool {
